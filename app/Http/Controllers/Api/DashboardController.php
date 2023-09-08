@@ -21,8 +21,12 @@ class DashboardController extends Controller
     {
         $data = DB::table('users')
         ->select(DB::raw('COUNT(id) AS user_count'), DB::raw('DATE(created_at) as date_created'))
-        ->whereMonth('created_at', '=', now()->month)
-        ->whereYear('created_at', '=', now()->year)
+        ->when(!empty($request->month),function($query)use($request){
+            $query->whereMonth('created_at', '=', now()->month);
+        })
+        ->when(!empty($request->year),function($query)use($request){
+            $query->whereYear('created_at', '=', now()->year());
+        })
         ->groupBy(DB::raw('DATE(created_at)'))
         ->orderBy(DB::raw('DATE(created_at)'))
         ->get();

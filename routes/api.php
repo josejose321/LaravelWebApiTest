@@ -22,22 +22,23 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::post('/login',[AuthController::class,'login']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
-        Route::post('/logout','logout');
-        Route::post('/auth','index');
+
+        Route::post('/auth', 'index');
     });
 
     Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard','index');
-        route::get('/dashboard/users-per-day','getUsersPerDay');
+        Route::get('/dashboard', 'index');
+        route::get('/dashboard/users-per-day', 'getUsersPerDay');
     });
 
-    Route::apiResource('/user',UserController::class);
+    Route::apiResource('/user', UserController::class);
 });
 
-Route::prefix('react')->as('react.')->group(function() {
-    Route::apiResource('/user',UserController::class);
+Route::prefix('react')->as('react.')->group(function () {
+    Route::apiResource('/user', UserController::class);
 });

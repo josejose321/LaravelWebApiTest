@@ -10,11 +10,11 @@ class AuthController extends Controller
 {
     //
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         return response()->json($request->user());
     }
-    public function login(Request $request) 
+    public function login(Request $request)
     {
         $request->validate([
             'email'         => 'required|email',
@@ -33,9 +33,9 @@ class AuthController extends Controller
     }
 
 
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // $request->user()->currentAccessToken()->delete();
         return response()->json(['message'=>'Successfully logged out']);
     }
 }
